@@ -1,0 +1,370 @@
+% \iffalse meta-comment
+%
+% Copyright (C) 2017 by Laurens Sion
+% -------------------------------------------------------
+% 
+% This file may be distributed and/or modified under the
+% conditions of the LaTeX Project Public License, either version 1.3
+% of this license or (at your option) any later version.
+% The latest version of this license is in:
+%
+%    http://www.latex-project.org/lppl.txt
+%
+% and version 1.3 or later is part of all distributions of LaTeX 
+% version 2005/12/01 or later.
+%
+% \fi
+%
+% \iffalse
+%<*driver>
+\ProvidesFile{pdfprivacy.dtx}
+%</driver>
+%<package>\NeedsTeXFormat{LaTeX2e}[2013/03/31]
+%<package>\ProvidesPackage{pdfprivacy}
+%<*driver|package>
+    [2017/11/27 v1.0 PDF Privacy package]
+%</driver|package>
+%
+%<*driver>
+\documentclass[a4paper]{ltxdoc}
+% make sure version 1.10 is behind 1.9, not 1.1
+\makeatletter
+\@ifdefinable{\org@changes@}{%
+  \let\org@changes@\changes@
+  \@ifdefinable{\my@changes}{%
+    \def\my@changes v#1.#2\@nil{%
+      \org@changes@{v#1.\six@digits{#2}=v#1.#2}%
+    }%
+    \newcommand*{\six@digits}[1]{%
+      \ifnum#1<100000 0\fi
+      \ifnum#1<10000 0\fi
+      \ifnum#1<1000 0\fi
+      \ifnum#1<100 0\fi
+      \two@digits{#1}%
+    }%
+    \renewcommand*{\changes@}[1]{%
+      \my@changes#1\@nil
+    }%
+  }%
+}
+\makeatother
+\usepackage[inline]{enumitem}
+\usepackage[all]{pdfprivacy}
+\usepackage{parskip}
+\usepackage[hidelinks]{hyperref}
+\EnableCrossrefs         
+\CodelineIndex
+%\PageIndex
+\RecordChanges
+%\OnlyDescription
+\begin{document}
+  \DocInput{pdfprivacy.dtx}
+\end{document}
+%</driver>
+% \fi
+%
+% \CheckSum{52}
+%
+% \CharacterTable
+%  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
+%   Lower-case    \a\b\c\d\e\f\g\h\i\j\k\l\m\n\o\p\q\r\s\t\u\v\w\x\y\z
+%   Digits        \0\1\2\3\4\5\6\7\8\9
+%   Exclamation   \!     Double quote  \"     Hash (number) \#
+%   Dollar        \$     Percent       \%     Ampersand     \&
+%   Acute accent  \'     Left paren    \(     Right paren   \)
+%   Asterisk      \*     Plus          \+     Comma         \,
+%   Minus         \-     Point         \.     Solidus       \/
+%   Colon         \:     Semicolon     \;     Less than     \<
+%   Equals        \=     Greater than  \>     Question mark \?
+%   Commercial at \@     Left bracket  \[     Backslash     \\
+%   Right bracket \]     Circumflex    \^     Underscore    \_
+%   Grave accent  \`     Left brace    \{     Vertical bar  \|
+%   Right brace   \}     Tilde         \~}
+%
+%
+% \changes{v1.0}{2017/11/27}{Initial version}
+%
+% \GetFileInfo{pdfprivacy.dtx}
+%
+% \DoNotIndex{\',\.,\@M,\@@input,\@Alph,\@alph,\@addtoreset,\@arabic}
+% \DoNotIndex{\@badmath,\@centercr,\@cite}
+% \DoNotIndex{\@dotsep,\@empty,\@float,\@gobble,\@gobbletwo,\@ignoretrue}
+% \DoNotIndex{\@input,\@ixpt,\@m,\@minus,\@mkboth}
+% \DoNotIndex{\@ne,\@nil,\@nomath,\@plus,\roman,\@set@topoint}
+% \DoNotIndex{\@tempboxa,\@tempcnta,\@tempdima,\@tempdimb}
+% \DoNotIndex{\@tempswafalse,\@tempswatrue,\@viipt,\@viiipt,\@vipt}
+% \DoNotIndex{\@vpt,\@warning,\@xiipt,\@xipt,\@xivpt,\@xpt,\@xviipt}
+% \DoNotIndex{\@xxpt,\@xxvpt,\\,\ ,\addpenalty,\addtolength,\addvspace}
+% \DoNotIndex{\advance,\ast,\begin,\begingroup,\bfseries,\bgroup,\box}
+% \DoNotIndex{\bullet}
+% \DoNotIndex{\cdot,\cite,\CodelineIndex,\cr,\day,\DeclareOption}
+% \DoNotIndex{\def,\DisableCrossrefs,\divide,\DocInput,\documentpackage}
+% \DoNotIndex{\DoNotIndex,\egroup,\ifdim,\else,\fi,\em,\endtrivlist}
+% \DoNotIndex{\EnableCrossrefs,\end,\end@dblfloat,\end@float,\endgroup}
+% \DoNotIndex{\endlist,\everycr,\everypar,\ExecuteOptions,\expandafter}
+% \DoNotIndex{\fbox}
+% \DoNotIndex{\filedate,\filename,\fileversion,\fontsize,\framebox,\gdef}
+% \DoNotIndex{\global,\halign,\hangindent,\hbox,\hfil,\hfill,\hrule}
+% \DoNotIndex{\hsize,\hskip,\hspace,\hss,\if@tempswa,\ifcase,\or,\fi,\fi}
+% \DoNotIndex{\ifhmode,\ifvmode,\ifnum,\iftrue,\ifx,\fi,\fi,\fi,\fi,\fi}
+% \DoNotIndex{\input}
+% \DoNotIndex{\jobname,\kern,\leavevmode,\let,\leftmark}
+% \DoNotIndex{\list,\llap,\long,\m@ne,\m@th,\mark,\markboth,\markright}
+% \DoNotIndex{\month,\newcommand,\newcounter,\newenvironment}
+% \DoNotIndex{\NeedsTeXFormat,\newdimen}
+% \DoNotIndex{\newlength,\newpage,\nobreak,\noindent,\null,\number}
+% \DoNotIndex{\numberline,\OldMakeindex,\OnlyDescription,\p@}
+% \DoNotIndex{\pagestyle,\par,\paragraph,\paragraphmark,\parfillskip}
+% \DoNotIndex{\penalty,\PrintChanges,\PrintIndex,\ProcessOptions}
+% \DoNotIndex{\protect,\Providespackage,\raggedbottom,\raggedright}
+% \DoNotIndex{\refstepcounter,\relax,\renewcommand}
+% \DoNotIndex{\rightmargin,\rightmark,\rightskip,\rlap,\rmfamily}
+% \DoNotIndex{\secdef,\selectfont,\setbox,\setcounter,\setlength}
+% \DoNotIndex{\settowidth,\sfcode,\skip,\sloppy,\slshape,\space}
+% \DoNotIndex{\symbol,\the,\trivlist,\typeout,\tw@,\undefined,\uppercase}
+% \DoNotIndex{\usecounter,\usefont,\usepackage,\vfil,\vfill,\viiipt}
+% \DoNotIndex{\viipt,\vipt,\vskip,\vspace}
+% \DoNotIndex{\wd,\xiipt,\year,\z@}
+% 
+%
+% \title{The \textsf{pdfprivacy} package\thanks{This document
+%   corresponds to \textsf{pdfprivacy}~\fileversion, dated \filedate.}}
+% \author{Laurens Sion \\ \texttt{laurens@sion.info}}
+%
+% \maketitle
+%
+% \begin{abstract}
+% \noindent
+% Creating pdfs with pdf\LaTeX{} populates several pdf meta-data fields such as date/time of creation/modification, information about the latex installation (e.g., pdf\TeX{} version), and the relative paths of included pdfs.
+% The |pdfprivacy| package provides support for emptying several of these pdf meta-data fields as well as supressing some pdf\TeX{} meta-data entries in the resulting pdf.
+% \end{abstract}
+%
+% \tableofcontents
+%
+% \clearpage
+%
+% \section{Introduction}
+%
+% By default, pdfs created by pdf\LaTeX{} contain several meta-data fields populated with information about the application used to create them, date/time information, and information about the \LaTeX{} installation.
+% The |pdfprivacy| package provides support to remove several of these meta-data fields from the resulting pdf.
+% By default |pdfprivacy| prevents the following properties from being set:
+% \begin{itemize}[noitemsep]
+%	\item The PDF creator (|Creator| in |hyperref|)
+%	\item The PDF producer (|Producer| in |hyperref|)
+%	\item The PDF modification date (|ModDate| in |hyperref|)
+%	\item The PDF creation date (|CreationDate| in |hyperref|)
+%	\item The PTEX.Fullbanner in the advanced PDF properties
+%	\item The PTEX.FileName with the filenames of any included pdf (e.g., images)
+%	\item The PTEX.PageNumber
+%	\item The PTEX.InfoDict
+% \end{itemize}
+% In addition to that, |pdfprivacy| can also remove the document meta-data: |Author|, |Title|, |Subject|, and |Keywords|;
+% and the |pdftrailerid| which allows you to create reproducible pdfs.
+%
+% \section{Requirements}
+%
+% |Pdfprivacy| requires a recent version of pdf\TeX{} (version $1.40.17$ or above\footnote{\url{https://www.tug.org/texlive/Contents/live/texmf-dist/doc/pdftex/NEWS}})  if you want to suppress the inclusion of the pdf\TeX{} banner.
+% \begin{quotation}
+%	\texttt{PTEX.Fullbanner This is pdfTeX, Version 3.14159265...} 
+% \end{quotation}
+%
+% \section{Usage}
+%
+% To use |pdfprivacy|, simple include it:
+%
+%\begin{quote}
+%	|\usepackage|\oarg{options}|{pdfprivacy}|,
+%\end{quote}
+% 
+% Options are passed on to |pdfprivacy| as key-value pairs.
+% By default, the options are set as follows:
+%
+%\begin{quote}
+%   |nodocdata=false,|\\
+%   |noeditdata=true,|\\
+%   |noproducerdata=true,|\\
+%   |noptexdata=true,|\\
+%   |nopdftrailerid=false|
+%\end{quote}
+%
+% This removes/suppresses all pdf creator, producer, dates, and pdfTeX meta-data.
+% Standard document properties such as title, author, subject, and keywords are still kept.
+% The |pdftrailerid| is kept as well by default.
+%
+% \subsection{Options}
+% All |pdfprivacy| options are boolean.
+% Each option is prefixed with |no| to indicate you want the meta-data removed, you can specify the oposite as well (e.g., both |nodocdate=true| or |docdata=false| are valid options).
+% \begin{description}
+%	\item[nodocdata=\meta{boolean}] Specify whether document meta-data should be removed from the pdf. Document meta-data includes: 
+%		\begin{enumerate*}[label=(\roman*)]
+%			\item Title,
+%			\item Subject,
+%			\item Author, and
+%			\item Keywords
+%		\end{enumerate*}.
+%	\item[noproducerdata=\meta{boolean}] Specify whether meta-data on the pdf-producing application should be removed. This includes:
+%		\begin{enumerate*}[label=(\roman*)]
+%			\item Creator, and
+%			\item Producer
+%		\end{enumerate*}.
+%	\item[noeditdata=\meta{boolean}] Specify whether meta-data on the edit and creation dates should be removed. This includes:
+%		\begin{enumerate*}[label=(\roman*)]
+%			\item creation date, and
+%			\item modification date
+%		\end{enumerate*}.
+%	\item[noptextdata=\meta{boolean}] Specify whether the PTEX meta-data entries should be suppressed. This includes:
+%		\begin{enumerate*}[label=(\roman*)]
+%			\item PTEX.Fullbanner, 
+%			\item PTEX.FileName,
+%			\item PTEX.PageNumber, and
+%			\item PTEX.InfoDict
+%		\end{enumerate*}.
+%	\item[nopdftrailerid=\meta{boolean}] Specify whether the pdfrailerid should be omitted.
+% \end{description}
+%
+% \subsection{Removing the pdftrailerid}
+%
+% The pdf trailer ID is a generated ID to uniquely identify a pdf.
+% The generated ID is based on the time of creation. 
+% This ID can be removed to make reproducible pdfs, i.e., with the same cryptographic hash.
+%
+% \textbf{Important:} The pdf trailer id is kept by default because it is optional but strongly recommended by the pdf standard.\footnote{\url{https://www.adobe.com/content/dam/acom/en/devnet/acrobat/pdfs/pdf_reference_1-7.pdf\#G8.1639448}}
+% Not including this entry could break some workflows that rely on the trailer ID to uniquely identify files.
+% If this is not a concern, the |nopdftrailerid=true| option can be used to remove it as well.
+%
+% \StopEventually{%
+%\clearpage%
+%\PrintIndex%
+%\clearpage%
+%\PrintChanges}
+%
+% \clearpage
+% \section{Implementation}
+% 
+% \subsection{Loading packages}
+%
+% Load |ifthen| for ifthenelse and booleans for managing user preferences.
+%    \begin{macrocode}
+\RequirePackage{ifthen}
+%    \end{macrocode}
+% Load |kvoptions| for laoding key-value options.
+%    \begin{macrocode}
+\RequirePackage{kvoptions}
+%    \end{macrocode}
+%
+% \subsection{Storage for options and settings}
+% Some booleans for keeping track if hyperref is loaded and if all meta-data should be removed.
+%    \begin{macrocode}
+\newboolean{pdfprivacy@hyperrefloaded}
+\newboolean{pdfprivacy@removeall}
+\setboolean{pdfprivacy@removeall}{false}
+%    \end{macrocode}
+%
+% \subsection{Declaring package options}
+% Declare all the package options and their complementary ones.
+%    \begin{macrocode}
+\DeclareBoolOption[false]{nodocdata}
+\DeclareComplementaryOption{docdata}{nodocdata}
+\DeclareBoolOption[true]{noproducerdata}
+\DeclareComplementaryOption{producerdata}{noproducerdata}
+\DeclareBoolOption[true]{noeditdata}
+\DeclareComplementaryOption{editdata}{noeditdata}
+\DeclareBoolOption[true]{noptexdata}
+\DeclareComplementaryOption{ptexdata}{noptexdata}
+\DeclareBoolOption[false]{nopdftrailerid}
+\DeclareComplementaryOption{pdftrailerid}{nopdftrailerid}
+%    \end{macrocode}
+% Additional |all| option to just remove everything.
+%    \begin{macrocode}
+\DeclareVoidOption{all}{\setboolean{pdfprivacy@removeall}{true}}
+%    \end{macrocode}
+%
+% Process the options.
+%    \begin{macrocode}
+\ProcessKeyvalOptions*
+%    \end{macrocode}
+%
+% \subsection{Process the user preferences}
+%
+% Check if we need to remove |all| and override the other preferences.
+%    \begin{macrocode}
+\ifthenelse{\boolean{pdfprivacy@removeall}}{%
+\setboolean{pdfprivacy@nodocdata}{true}
+\setboolean{pdfprivacy@noproducerdata}{true}
+\setboolean{pdfprivacy@noeditdata}{true}
+\setboolean{pdfprivacy@noptexdata}{true}
+\setboolean{pdfprivacy@nopdftrailerid}{true}
+}{%
+}
+%    \end{macrocode}
+%
+% Check if hyperref is loaded as some meta-data needs to be set using hyperref.
+%    \begin{macrocode}
+\AtBeginDocument{
+\@ifpackageloaded{hyperref}{\setboolean{pdfprivacy@hyperrefloaded}{true}}{\setboolean{pdfprivacy@hyperrefloaded}{false}}
+}
+%    \end{macrocode}
+%
+%
+% \subsection{Remove or suppress all the necessary meta-data}
+%
+% Process docdata preference.
+%    \begin{macrocode}
+\AtBeginDocument{
+\ifthenelse{\boolean{pdfprivacy@nodocdata}}{%
+	\ifthenelse{\boolean{pdfprivacy@hyperrefloaded}}{%
+		\hypersetup{pdfinfo={ Author={}, Subject={}, Title={}, Keywords={} }}%
+	}{%
+		\pdfinfo{/Author () /Title () /Subject () /Keywords () }%
+	}
+}{%
+}
+}
+%    \end{macrocode}
+%
+% Process producerdata preference.
+%    \begin{macrocode}
+\AtBeginDocument{
+\ifthenelse{\boolean{pdfprivacy@noproducerdata}}{%
+	\ifthenelse{\boolean{pdfprivacy@hyperrefloaded}}{%
+	\hypersetup{pdfinfo={ Creator={}, Producer={} }}%
+	}{%
+	\pdfinfo{/Creator () /Producer ()}%
+	}
+}{%
+}
+}
+%    \end{macrocode}
+%
+% 
+% Process editdata preference.
+%    \begin{macrocode}
+\ifthenelse{\boolean{pdfprivacy@noeditdata}}{%
+\pdfinfoomitdate1
+}{}
+%    \end{macrocode}
+%
+
+%    \begin{macrocode}
+%    \end{macrocode}
+%
+% Process the PTEX data preference.
+%    \begin{macrocode}
+\ifthenelse{\boolean{pdfprivacy@noptexdata}}{
+\pdfsuppressptexinfo-1
+}{}
+
+%    \end{macrocode}
+%
+% Process the pdftrailerid preference.
+%    \begin{macrocode}
+\ifthenelse{\boolean{pdfprivacy@nopdftrailerid}}{
+\pdftrailerid{}
+}{}
+
+%    \end{macrocode}
+%
+%
+%
+% \Finale
+\endinput
