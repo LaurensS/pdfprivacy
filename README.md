@@ -22,3 +22,7 @@ For more detailed usage information, check the documentation.
 To generate the documentation run:
 
 > pdflatex pdfprivacy.dtx
+
+## License
+
+This package is available under the conditions of the LaTeX Project Public License, either version 1.3 of this license or (at your option) any later version.
