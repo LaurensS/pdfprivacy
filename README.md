@@ -25,4 +25,6 @@ To generate the documentation run:
 
 ## License
 
-This package is available under the conditions of the LaTeX Project Public License, either version 1.3 of this license or (at your option) any later version.
+This package is available under the conditions of the LaTeX Project Public License, either version 1.3c of this license or (at your option) any later version.
+
+This work consists of the files pdfprivacy.dtx and pdfprivacy.ins and the derived file pdfprivacy.sty.
