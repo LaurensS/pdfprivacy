@@ -222,6 +222,15 @@
 %	\item[nopdftrailerid=\meta{boolean}] Specify whether the pdfrailerid should be omitted.
 % \end{description}
 %
+% \subsection{Using pdfprivacy without hyperref}
+%
+% When using |pdfprivacy| without |hyperref|, the |\pdfinfo| command is used to set the pdf meta-data properties (i.e., |Title|, |Subject|, |Keywords|, |Author|, |Creator|, and |Producer|).
+% The |\pdfinfo| works by appending the provided properties to the pdf info dictionary.
+% This means that any previously set properties will still be present in the resulting pdf, despite pdf viewers only showing the last one.
+% To make sure these properties are not present, \emph{do not} manually set any of these properties, or use |hyperref| to set them.
+% |Hyperref| will only save the last property (i.e., the empty one set by |pdfprivacy|) to the pdf.
+% To make absolutely sure that no meta-data is present in the resulting pdf, you can always manually check the pdf by opening it as a text file.\footnote{Note: privacy-sensitive content may be present in the pdf in an encoded form. When manually verifying, make sure to look for the pdf property (e.g., |/Author (|\meta{content}|)| as well to verify it is empty.}
+%
 % \subsection{Removing the pdftrailerid}
 %
 % The pdf trailer ID is a generated ID to uniquely identify a pdf.
