@@ -22,7 +22,7 @@
 %<package>\NeedsTeXFormat{LaTeX2e}[2013/03/31]
 %<package>\ProvidesPackage{pdfprivacy}
 %<*driver|package>
-    [2017/11/27 v1.0 PDF Privacy package]
+    [2017/12/03 v1.0 PDF Privacy package]
 %</driver|package>
 %
 %<*driver>
@@ -82,7 +82,7 @@
 %   Right brace   \}     Tilde         \~}
 %
 %
-% \changes{v1.0}{2017/11/27}{Initial version}
+% \changes{v1.0}{2017/12/03}{Initial version}
 %
 % \GetFileInfo{pdfprivacy.dtx}
 %
@@ -136,7 +136,7 @@
 % \begin{abstract}
 % \noindent
 % Creating pdfs with pdf\LaTeX{} populates several pdf meta-data fields such as date/time of creation/modification, information about the latex installation (e.g., pdf\TeX{} version), and the relative paths of included pdfs.
-% The |pdfprivacy| package provides support for emptying several of these pdf meta-data fields as well as supressing some pdf\TeX{} meta-data entries in the resulting pdf.
+% The |pdfprivacy| package provides support for emptying several of these pdf meta-data fields as well as suppressing some pdf\TeX{} meta-data entries in the resulting pdf.
 % \end{abstract}
 %
 % \tableofcontents
@@ -193,7 +193,7 @@
 %
 % \subsection{Options}
 % All |pdfprivacy| options are boolean.
-% Each option is prefixed with |no| to indicate you want the meta-data removed, you can specify the oposite as well (e.g., both |nodocdate=true| or |docdata=false| are valid options).
+% Each option is prefixed with |no| to indicate you want the meta-data removed, you can specify the opposite as well (e.g., both |nodocdata=true| or |docdata=false| are valid options).
 % \begin{description}
 %	\item[nodocdata=\meta{boolean}] Specify whether document meta-data should be removed from the pdf. Document meta-data includes: 
 %		\begin{enumerate*}[label=(\roman*)]
@@ -212,7 +212,7 @@
 %			\item creation date, and
 %			\item modification date
 %		\end{enumerate*}.
-%	\item[noptextdata=\meta{boolean}] Specify whether the PTEX meta-data entries should be suppressed. This includes:
+%	\item[noptexdata=\meta{boolean}] Specify whether the PTEX meta-data entries should be suppressed. This includes:
 %		\begin{enumerate*}[label=(\roman*)]
 %			\item PTEX.Fullbanner, 
 %			\item PTEX.FileName,

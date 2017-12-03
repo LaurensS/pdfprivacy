@@ -1,7 +1,7 @@
 # The pdfprivacy package
 
-Creating pdfs with pdfLaTeX populates several pdf meta-data fields such as date/time of creation/modification, information about the latex installation (e.g., pdfTeX version), and the relative paths of included pdfs.
-The pdfprivacy package provides support for emptying several of these pdf meta-data fields as well as supressing some pdfTeX meta-data entries in the resulting pdf.
+Creating pdfs with pdfLaTeX populates several pdf meta-data fields such as date/time of creation/modification, information about the latex installation (e.g., pdfTeX version), and the relative paths of included pdfs. 
+The pdfprivacy package provides support for emptying several of these pdf meta-data fields as well as suppressing some pdfTeX meta-data entries in the resulting pdf.
 
 ## Installation
 
