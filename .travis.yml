@@ -1,0 +1,27 @@
+sudo: enabled
+
+services:
+  - docker
+
+language: c
+
+before_install:
+  - docker pull laurenss/texlive-full
+
+before_script:
+  - alias drun="docker run --rm -it -v ${PWD}:/data laurenss/texlive-full"
+
+script:
+  - shopt -s expand_aliases
+  - drun latex pdfprivacy.ins
+  - drun pdflatex pdfprivacy.dtx
+  - drun makeindex -s gglo.ist -o pdfprivacy.gls pdfprivacy.glo
+  - drun makeindex -s gind.ist -o pdfprivacy.ind pdfprivacy.idx
+  - drun pdflatex pdfprivacy.dtx
+  - drun pdflatex pdfprivacy.dtx
+
+notifications:
+  email:
+    on_success: change
+    on_failure: always
+    on_start:   never
