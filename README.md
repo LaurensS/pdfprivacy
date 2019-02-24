@@ -2,6 +2,8 @@
 
 [![Build Status](https://travis-ci.org/LaurensS/pdfprivacy.svg?branch=master)](https://travis-ci.org/LaurensS/pdfprivacy)
 [![pipeline status](https://gitlab.com/LaurensS/pdfprivacy/badges/master/pipeline.svg)](https://gitlab.com/LaurensS/pdfprivacy/commits/master)
+[![CTAN](https://img.shields.io/ctan/v/pdfprivacy.svg)](https://www.ctan.org/pkg/pdfprivacy)
+[![CTAN](https://img.shields.io/ctan/l/pdfprivacy.svg)](https://www.ctan.org/license/lppl1.3c)
 
 Creating pdfs with pdfLaTeX populates several pdf meta-data fields such as date/time of creation/modification, information about the latex installation (e.g., pdfTeX version), and the relative paths of included pdfs. 
 The pdfprivacy package provides support for emptying several of these pdf meta-data fields as well as suppressing some pdfTeX meta-data entries in the resulting pdf.
