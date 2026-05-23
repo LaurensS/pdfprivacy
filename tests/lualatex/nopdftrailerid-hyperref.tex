@@ -1,5 +1,7 @@
+% pdfprivacy-test: build=success package=none
+% pdfprivacy-test: absent=PDF:TrailerID
 \documentclass{article}
-\usepackage[nodocdata=true,noproducerdata=false,noeditdata=false,noptexdata=false,nopdftrailerid=false]{pdfprivacy}
+\usepackage[nodocdata=false,noproducerdata=false,noeditdata=false,noptexdata=false,nopdftrailerid=true]{pdfprivacy}
 \usepackage[hidelinks]{hyperref}
 
 \hypersetup{
@@ -12,5 +14,5 @@
 }
 
 \begin{document}
-This test validates the nodocdata option.
+This test validates the nopdftrailerid option.
 \end{document}

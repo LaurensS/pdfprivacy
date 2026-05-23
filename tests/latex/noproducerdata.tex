@@ -1,0 +1,9 @@
+% pdfprivacy-test: build=success package=none
+% pdfprivacy-test: absent=PDF:Creator,PDF:Producer
+\documentclass{article}
+\usepackage[nodocdata=false,noproducerdata=true,noeditdata=false,noptexdata=false,nopdftrailerid=false]{pdfprivacy}
+
+
+\begin{document}
+This test validates the noproducerdata option.
+\end{document}

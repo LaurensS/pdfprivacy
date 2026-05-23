@@ -1,0 +1,9 @@
+% pdfprivacy-test: build=success package=none
+% pdfprivacy-test: absent=PDF:CreateDate,PDF:ModifyDate
+\documentclass{article}
+\usepackage[nodocdata=false,noproducerdata=false,noeditdata=true,noptexdata=false,nopdftrailerid=false]{pdfprivacy}
+
+
+\begin{document}
+This test validates the noeditdata option.
+\end{document}

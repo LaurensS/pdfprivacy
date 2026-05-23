@@ -22,7 +22,7 @@
 %<package>\NeedsTeXFormat{LaTeX2e}[2013/03/31]
 %<package>\ProvidesPackage{pdfprivacy}
 %<*driver|package>
-    [2017/12/03 v1.0 PDF Privacy package]
+    [2026/05/23 v1.1 PDF Privacy package]
 %</driver|package>
 %
 %<*driver>
@@ -52,6 +52,7 @@
 \usepackage[all]{pdfprivacy}
 \usepackage{parskip}
 \usepackage[hidelinks]{hyperref}
+\usepackage{cleveref}
 \EnableCrossrefs         
 \CodelineIndex
 %\PageIndex
@@ -63,7 +64,7 @@
 %</driver>
 % \fi
 %
-% \CheckSum{52}
+% ^^A \CheckSum{52}
 %
 % \CharacterTable
 %  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
@@ -161,12 +162,42 @@
 % In addition to that, |pdfprivacy| can also remove the document meta-data: |Author|, |Title|, |Subject|, and |Keywords|;
 % and the |pdftrailerid| which allows you to create reproducible pdfs.
 %
-% \section{Requirements}
+% \section{Requirements and Supported Engines}
 %
-% |Pdfprivacy| requires a recent version of pdf\TeX{} (version $1.40.17$ or above\footnote{\url{https://www.tug.org/texlive/Contents/live/texmf-dist/doc/pdftex/NEWS}})  if you want to suppress the inclusion of the pdf\TeX{} banner.
+% |Pdfprivacy| supports three \TeX{} engines: pdf\LaTeX{}, Lua\LaTeX{}, and Xe\LaTeX{}.
+% Support differs by engine due to availability of metadata suppression primitives.
+% Note that there are caveats when you use certain primitives with certain engines (e.g., |\pdfinfo| appends entries to the dictionary instead of replacing them). 
+% See \cref{ssec:withouthyperref} for more details.
+%
+% \subsection{pdf\LaTeX{} (full support)}
+%
+% |Pdfprivacy| requires pdf\TeX{} version $1.40.17$ or above\footnote{\url{https://www.tug.org/texlive/Contents/live/texmf-dist/doc/pdftex/NEWS}}
+% for full metadata removal and suppression of the pdf\TeX{} banner:
 % \begin{quotation}
 %	\texttt{PTEX.Fullbanner This is pdfTeX, Version 3.14159265...} 
 % \end{quotation}
+% All metadata removal options (|nodocdata|, |noproducerdata|, |noeditdata|, |noptexdata|, |nopdftrailerid|)
+% are fully supported.
+%
+% \subsection{Lua\LaTeX{} (full support)}
+%
+% Lua\LaTeX{} provides the |\pdfvariable suppressoptionalinfo| primitive for comprehensive metadata suppression.
+% All metadata removal options (|nodocdata|, |noproducerdata|, |noeditdata|, |noptexdata|, |nopdftrailerid|)
+% are fully supported.
+%
+% \subsection{Xe\LaTeX{} (limited support)}
+%
+% Xe\LaTeX{} lacks several pdf\TeX{} and Lua\LaTeX{} primitives for metadata suppression.
+% The following limitations apply:
+% \begin{itemize}[noitemsep]
+%	\item |nodocdata| is \emph{supported}: document metadata can be cleared via the |\special{pdf:docinfo}| mechanism.
+%	\item |noproducerdata| is \emph{partially supported}: the PDF Creator can be cleared via |\special{pdf:docinfo}|,
+%	  but clearing the Producer field is not possible as xdvipdfmx will override it.
+%	\item |noeditdata| and |noptexdata| are \emph{not supported}: these require engine primitives unavailable in Xe\LaTeX{}.
+%	  Using these options will raise a package error.
+%	\item |nopdftrailerid| is \emph{partially supported}: instead of omitting the trailer ID,
+%	  an all-zero ID |<00000000...00000000>| is inserted. This may affect workflows relying on unique trailer IDs.
+% \end{itemize}
 %
 % \section{Usage}
 %
@@ -220,9 +251,11 @@
 %			\item PTEX.InfoDict
 %		\end{enumerate*}.
 %	\item[nopdftrailerid=\meta{boolean}] Specify whether the pdfrailerid should be omitted.
+% \item[strict=\meta{boolean}] Specify strict mode.
+% In this mode, unsupported options will raise package errors instead of warnings, and the package will fail to load if the engine does not support the required primitives for the selected options.
 % \end{description}
 %
-% \subsection{Using pdfprivacy without hyperref}
+% \subsection{Using pdfprivacy without hyperref}\label{ssec:withouthyperref}
 %
 % When using |pdfprivacy| without |hyperref|, the |\pdfinfo| command is used to set the pdf meta-data properties (i.e., |Title|, |Subject|, |Keywords|, |Author|, |Creator|, and |Producer|).
 % The |\pdfinfo| works by appending the provided properties to the pdf info dictionary.
@@ -260,6 +293,10 @@
 %    \begin{macrocode}
 \RequirePackage{kvoptions}
 %    \end{macrocode}
+% Load |iftex| to detect the TeX engine and provide clearer diagnostics.
+%    \begin{macrocode}
+\RequirePackage{iftex}
+%    \end{macrocode}
 %
 % \subsection{Storage for options and settings}
 % Some booleans for keeping track if hyperref is loaded and if all meta-data should be removed.
@@ -267,6 +304,19 @@
 \newboolean{pdfprivacy@hyperrefloaded}
 \newboolean{pdfprivacy@removeall}
 \setboolean{pdfprivacy@removeall}{false}
+\newcommand{\pdfprivacy@enginename}{unknown engine}
+\ifPDFTeX\renewcommand{\pdfprivacy@enginename}{pdfTeX}\fi
+\ifXeTeX\renewcommand{\pdfprivacy@enginename}{XeTeX}\fi
+\ifLuaTeX\renewcommand{\pdfprivacy@enginename}{LuaTeX}\fi
+\newcommand{\pdfprivacy@unsupportedoptionerror}[2]{%
+\PackageError{pdfprivacy}{Option '#1' is not supported with #2}{%
+This option requires engine-specific PDF primitives that are unavailable.%
+\MessageBreak Disable the option, use another engine, or use the default metadata behavior.%
+}}
+\newcommand{\pdfprivacy@warningorstrictfail}[2][]{%
+\ifthenelse{\boolean{pdfprivacy@strict}}{%
+\PackageError{pdfprivacy}{#2}{#1}}{%
+\PackageWarning{pdfprivacy}{#2}}}
 %    \end{macrocode}
 %
 % \subsection{Declaring package options}
@@ -282,6 +332,7 @@
 \DeclareComplementaryOption{ptexdata}{noptexdata}
 \DeclareBoolOption[false]{nopdftrailerid}
 \DeclareComplementaryOption{pdftrailerid}{nopdftrailerid}
+\DeclareBoolOption[false]{strict}
 %    \end{macrocode}
 % Additional |all| option to just remove everything.
 %    \begin{macrocode}
@@ -317,60 +368,171 @@
 %
 % \subsection{Remove or suppress all the necessary meta-data}
 %
-% Process docdata preference.
+% Process all preferences grouped by TeX engine.
+% The implementation first dispatches on engine, then handles all option
+% processing within the selected engine branch.
 %    \begin{macrocode}
 \AtBeginDocument{
-\ifthenelse{\boolean{pdfprivacy@nodocdata}}{%
-	\ifthenelse{\boolean{pdfprivacy@hyperrefloaded}}{%
-		\hypersetup{pdfinfo={ Author={}, Subject={}, Title={}, Keywords={} }}%
-	}{%
-		\pdfinfo{/Author () /Title () /Subject () /Keywords () }%
-	}
-}{%
-}
-}
 %    \end{macrocode}
-%
-% Process producerdata preference.
+% \subsubsection{Processing pdftex}
+% In the pdftex branch, do removal and suppression with the pdftex primitives.
 %    \begin{macrocode}
-\AtBeginDocument{
-\ifthenelse{\boolean{pdfprivacy@noproducerdata}}{%
-	\ifthenelse{\boolean{pdfprivacy@hyperrefloaded}}{%
-	\hypersetup{pdfinfo={ Creator={}, Producer={} }}%
-	}{%
-	\pdfinfo{/Creator () /Producer ()}%
-	}
-}{%
-}
-}
+\ifpdftex
 %    \end{macrocode}
 %
-% 
-% Process editdata preference.
+% Process the document meta-data.
 %    \begin{macrocode}
-\ifthenelse{\boolean{pdfprivacy@noeditdata}}{%
-\pdfinfoomitdate1
-}{}
+  \ifthenelse{\boolean{pdfprivacy@nodocdata}}{%
+    \ifthenelse{\boolean{pdfprivacy@hyperrefloaded}}{%
+      \hypersetup{pdfinfo={ Author={}, Subject={}, Title={}, Keywords={} }}%
+    }{%
+      \pdfinfo{/Author () /Title () /Subject () /Keywords () }%
+    }
+  }{}
 %    \end{macrocode}
 %
+% Process the producer meta-data.
+%    \begin{macrocode}
+  \ifthenelse{\boolean{pdfprivacy@noproducerdata}}{%
+    \ifthenelse{\boolean{pdfprivacy@hyperrefloaded}}{%
+      \hypersetup{pdfinfo={ Creator={}, Producer={} }}%
+    }{%
+      \pdfinfo{/Creator () /Producer ()}%
+    }
+  }{}
+%    \end{macrocode}
+%
+% Process the edit dates meta-data.
+%    \begin{macrocode}
+  \ifthenelse{\boolean{pdfprivacy@noeditdata}}{%
+    \pdfinfoomitdate1
+  }{}
+%    \end{macrocode}
+%
+% Process the ptex meta-data.
+%    \begin{macrocode}
+  \ifthenelse{\boolean{pdfprivacy@noptexdata}}{%
+    \pdfsuppressptexinfo-1
+  }{}
+%    \end{macrocode}
+%
+% Process the trailerid.
+%    \begin{macrocode}
+  \ifthenelse{\boolean{pdfprivacy@nopdftrailerid}}{%
+    \pdftrailerid{}
+  }{}
 
+%    \end{macrocode}
+% \subsubsection{Processing xetex}
+% In the xetex branch, unsupported options produce package errors,
+% while any primitive-backed behavior is retained if available.
 %    \begin{macrocode}
+\else\ifxetex
 %    \end{macrocode}
 %
-% Process the PTEX data preference.
+% Process the document meta-data.
 %    \begin{macrocode}
-\ifthenelse{\boolean{pdfprivacy@noptexdata}}{
-\pdfsuppressptexinfo-1
-}{}
-
+  \ifthenelse{\boolean{pdfprivacy@nodocdata}}{%
+    \ifthenelse{\boolean{pdfprivacy@hyperrefloaded}}{%
+      \hypersetup{pdfinfo={ Author={}, Subject={}, Title={}, Keywords={} }}%
+    }{%
+      \special{pdf:docinfo << /Title () /Author () /Subject () /Keywords () >>}%
+    }
+  }{}
 %    \end{macrocode}
 %
-% Process the pdftrailerid preference.
+% Process the producer meta-data.
 %    \begin{macrocode}
-\ifthenelse{\boolean{pdfprivacy@nopdftrailerid}}{
-\pdftrailerid{}
-}{}
-
+  \ifthenelse{\boolean{pdfprivacy@noproducerdata}}{%
+    \pdfprivacy@warningorstrictfail[]{Clearing the PDF producer not supported with XeTeX. Only the PDF creator property will be cleared.}
+    \ifthenelse{\boolean{pdfprivacy@hyperrefloaded}}{%
+      \hypersetup{pdfinfo={ Creator={}, Producer={} }}%
+    }{%
+      \special{pdf:docinfo << /Creator () /Producer () >>}%
+    }
+  }{}
+  \ifthenelse{\boolean{pdfprivacy@noeditdata}}{%
+    \pdfprivacy@unsupportedoptionerror{noeditdata}{XeTeX}
+  }{}
+  \ifthenelse{\boolean{pdfprivacy@noptexdata}}{%
+    \pdfprivacy@unsupportedoptionerror{noptexdata}{XeTeX}
+  }{}
+  \ifthenelse{\boolean{pdfprivacy@nopdftrailerid}}{%
+    \pdfprivacy@warningorstrictfail[]{No trailerid is not supported for XeTeX. Instead, an all 0 trailerid will be inserted into the pdf.
+This might break some pdf workflows that rely on the trailerid.%
+}
+    \special{pdf:trailerid [
+    <00000000000000000000000000000000>
+    <00000000000000000000000000000000>
+]}
+  }{}
+\else\ifluatex
+%    \end{macrocode}
+% \subsubsection{Processing luatex}
+% In the Lua\TeX{} branch, all metadata suppression is handled via
+% |\pdfvariable suppressoptionalinfo| with a bitmask computed from the
+% active options. Document metadata (nodocdata) is cleared separately
+% via |hyperref| or |\pdfinfo| since those fields are not covered by
+% |\pdfvariable suppressoptionalinfo|.
+%
+% Process the document meta-data.
+%    \begin{macrocode}
+  \ifthenelse{\boolean{pdfprivacy@nodocdata}}{%
+    \ifthenelse{\boolean{pdfprivacy@hyperrefloaded}}{%
+      \hypersetup{pdfinfo={ Author={}, Subject={}, Title={}, Keywords={} }}%
+    }{%
+      \pdfextension info { /Title () /Author () /Subject () /Keywords () }
+    }
+  }{}
+%    \end{macrocode}
+%
+% Compute the |\pdfvariable suppressoptionalinfo| bitmask from the active
+% options and apply it. The bit values are:
+% \begin{itemize}[noitemsep]
+%   \item $1{+}2{+}4{+}8 = 15$: \texttt{PTEX.FullBanner}, \texttt{PTEX.FileName},
+%     \texttt{PTEX.PageNumber}, \texttt{PTEX.InfoDict} (|noptexdata|)
+%   \item $16{+}128 = 144$: \texttt{Creator}, \texttt{Producer} (|noproducerdata|)
+%   \item $32{+}64 = 96$: \texttt{CreationDate}, \texttt{ModDate} (|noeditdata|)
+%   \item $512$: \texttt{ID} (|nopdftrailerid|)
+% \end{itemize}
+% When hyperref is loaded, Creator and Producer are also cleared via
+% |\hypersetup| since hyperref writes those fields independently of the engine.
+%    \begin{macrocode}
+  \newcount\pdfprivacy@suppressbits
+  \pdfprivacy@suppressbits=0
+  \ifthenelse{\boolean{pdfprivacy@noptexdata}}{\advance\pdfprivacy@suppressbits by 15}{}%
+  \ifthenelse{\boolean{pdfprivacy@noproducerdata}}{\advance\pdfprivacy@suppressbits by 144}{}%
+  \ifthenelse{\boolean{pdfprivacy@noeditdata}}{\advance\pdfprivacy@suppressbits by 96}{}%
+  \ifthenelse{\boolean{pdfprivacy@nopdftrailerid}}{\advance\pdfprivacy@suppressbits by 512}{}%
+  \pdfvariable suppressoptionalinfo\pdfprivacy@suppressbits
+  \ifthenelse{\boolean{pdfprivacy@noproducerdata}}{%
+    \ifthenelse{\boolean{pdfprivacy@hyperrefloaded}}{%
+      \hypersetup{pdfinfo={ Creator={}, Producer={} }}%
+    }{}%
+  }{}
+\else
+%    \end{macrocode}
+%
+% As a fallback for unknown engines, enabled options are reported as
+% unsupported using the generic engine name for diagnostics.
+%    \begin{macrocode}
+  \ifthenelse{\boolean{pdfprivacy@nodocdata}}{%
+    \pdfprivacy@unsupportedoptionerror{nodocdata}{\pdfprivacy@enginename}
+  }{}
+  \ifthenelse{\boolean{pdfprivacy@noproducerdata}}{%
+    \pdfprivacy@unsupportedoptionerror{noproducerdata}{\pdfprivacy@enginename}
+  }{}
+  \ifthenelse{\boolean{pdfprivacy@noeditdata}}{%
+    \pdfprivacy@unsupportedoptionerror{noeditdata}{\pdfprivacy@enginename}
+  }{}
+  \ifthenelse{\boolean{pdfprivacy@noptexdata}}{%
+    \pdfprivacy@unsupportedoptionerror{noptexdata}{\pdfprivacy@enginename}
+  }{}
+  \ifthenelse{\boolean{pdfprivacy@nopdftrailerid}}{%
+    \pdfprivacy@unsupportedoptionerror{nopdftrailerid}{\pdfprivacy@enginename}
+  }{}
+\fi\fi\fi
+}
 %    \end{macrocode}
 %
 %

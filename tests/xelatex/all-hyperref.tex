@@ -1,0 +1,18 @@
+% pdfprivacy-test: build=fail package=error
+% pdfprivacy-test: absent=PDF:Author,PDF:Title,PDF:Subject,PDF:Keywords,PDF:Creator,PDF:Producer,PDF:CreateDate,PDF:ModifyDate,PDF:PTEX_Fullbanner,PDF:PTEX_FileName,PDF:PTEX_PageNumber,PDF:PTEX_InfoDict,PDF:TrailerID
+\documentclass{article}
+\usepackage[all]{pdfprivacy}
+\usepackage[hidelinks]{hyperref}
+
+\hypersetup{
+  pdftitle={PDFPrivacy Integration Test},
+  pdfauthor={PDFPrivacy Test Author},
+  pdfsubject={PDFPrivacy Test Subject},
+  pdfkeywords={pdfprivacy,metadata,test},
+  pdfcreator={PDFPrivacy Test Creator},
+  pdfproducer={PDFPrivacy Test Producer}
+}
+
+\begin{document}
+This test validates the all option (removes all metadata).
+\end{document}

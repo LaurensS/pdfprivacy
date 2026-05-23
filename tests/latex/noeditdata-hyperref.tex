@@ -1,5 +1,7 @@
+% pdfprivacy-test: build=success package=none
+% pdfprivacy-test: absent=PDF:CreateDate,PDF:ModifyDate
 \documentclass{article}
-\usepackage[nodocdata=false,noproducerdata=true,noeditdata=false,noptexdata=false,nopdftrailerid=false]{pdfprivacy}
+\usepackage[nodocdata=false,noproducerdata=false,noeditdata=true,noptexdata=false,nopdftrailerid=false]{pdfprivacy}
 \usepackage[hidelinks]{hyperref}
 
 \hypersetup{
@@ -12,5 +14,5 @@
 }
 
 \begin{document}
-This test validates the noproducerdata option.
+This test validates the noeditdata option.
 \end{document}

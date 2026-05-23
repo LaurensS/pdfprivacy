@@ -1,5 +1,8 @@
+% pdfprivacy-test: build=success package=warning
+% pdfprivacy-test: absent=PDF:Creator
+% PDF:Producer will still be present.
 \documentclass{article}
-\usepackage[all]{pdfprivacy}
+\usepackage[nodocdata=false,noproducerdata=true,noeditdata=false,noptexdata=false,nopdftrailerid=false]{pdfprivacy}
 \usepackage[hidelinks]{hyperref}
 
 \hypersetup{
@@ -12,5 +15,5 @@
 }
 
 \begin{document}
-This test validates the all option (removes all metadata).
+This test validates the noproducerdata option.
 \end{document}
