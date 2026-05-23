@@ -1,7 +1,5 @@
 # The pdfprivacy package
 
-[![Build Status](https://travis-ci.org/LaurensS/pdfprivacy.svg?branch=master)](https://travis-ci.org/LaurensS/pdfprivacy)
-[![pipeline status](https://gitlab.com/LaurensS/pdfprivacy/badges/master/pipeline.svg)](https://gitlab.com/LaurensS/pdfprivacy/commits/master)
 [![CTAN](https://img.shields.io/ctan/v/pdfprivacy.svg)](https://www.ctan.org/pkg/pdfprivacy)
 [![CTAN](https://img.shields.io/ctan/l/pdfprivacy.svg)](https://www.ctan.org/license/lppl1.3c)
 
