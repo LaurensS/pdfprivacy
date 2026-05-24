@@ -26,6 +26,14 @@ To generate the documentation run:
 
 > pdflatex pdfprivacy.dtx
 
+## Testing
+
+To run the package test suite from the repository root, use the script that matches your shell:
+
+> pwsh ./tests/runPackageTests.ps1
+
+> bash ./tests/runPackageTests.sh
+
 ## License
 
 This package is available under the conditions of the LaTeX Project Public License, either version 1.3c of this license or (at your option) any later version.

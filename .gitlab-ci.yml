@@ -3,12 +3,41 @@ image: texlive/texlive:latest
 build:
   script:
     - latex pdfprivacy.ins
-    - pdflatex pdfprivacy.dtx
-    - makeindex -s gglo.ist -o pdfprivacy.gls pdfprivacy.glo
-    - makeindex -s gind.ist -o pdfprivacy.ind pdfprivacy.idx
-    - pdflatex pdfprivacy.dtx
-    - pdflatex pdfprivacy.dtx
+    - latexmk -pdf pdfprivacy.dtx
   artifacts:
     paths:
       - "*.pdf"
       - "*.sty"
+
+test:
+  needs:
+    - build
+  script:
+    - apt update && apt install -y exiftool
+    - chmod +x tests/runPackageTests.sh
+    - tests/runPackageTests.sh
+  artifacts:
+    paths:
+      - "tests/**/*.log"
+
+build-release:
+  needs:
+    - build
+  script:
+    - apt update && apt install -y cpanminus
+    - cpanm File::Copy::Recursive 
+    - ctanify --pkgname=pdfprivacy --unixify --no-tds pdfprivacy.ins pdfprivacy.pdf README.md
+  artifacts:
+    paths:
+      - "pdfprivacy.tar.gz"
+
+test-release:
+  needs: ["build-release"]
+  script:
+    - curl -L https://mirrors.ctan.org/support/pkgcheck/bin/pkgcheck-x86_64-unknown-linux-musl -o pkgcheck
+    - tar -xvzf pdfprivacy.tar.gz
+    - chmod +x pkgcheck
+    - ./pkgcheck -d pdfprivacy
+  artifacts:
+    paths:
+      - "pdfprivacy.tar.gz"
