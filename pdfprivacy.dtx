@@ -193,8 +193,9 @@
 %	\item |nodocdata| is \emph{supported}: document metadata can be cleared via the |\special{pdf:docinfo}| mechanism.
 %	\item |noproducerdata| is \emph{partially supported}: the PDF Creator can be cleared via |\special{pdf:docinfo}|,
 %	  but clearing the Producer field is not possible as xdvipdfmx will override it.
-%	\item |noeditdata| and |noptexdata| are \emph{not supported}: these require engine primitives unavailable in Xe\LaTeX{}.
-%	  Using these options will raise a package error.
+%	\item |noeditdata| is \emph{not supported}: these require engine primitives unavailable in Xe\LaTeX{}.
+%	  Using this options will raise a warning.
+% \item |noptexdata| is \emph{not supported}: Xe\LaTeX{} does not seem to emit PTEX meta-data entries in the resulting pdf, so there is nothing to suppress. 
 %	\item |nopdftrailerid| is \emph{partially supported}: instead of omitting the trailer ID,
 %	  an all-zero ID |<00000000...00000000>| is inserted. This may affect workflows relying on unique trailer IDs.
 % \end{itemize}
@@ -307,10 +308,15 @@
 \ifXeTeX\renewcommand{\pdfprivacy@enginename}{XeTeX}\fi
 \ifLuaTeX\renewcommand{\pdfprivacy@enginename}{LuaTeX}\fi
 \newcommand{\pdfprivacy@unsupportedoptionerror}[2]{%
+\ifthenelse{\boolean{pdfprivacy@strict}}{%
 \PackageError{pdfprivacy}{Option '#1' is not supported with #2}{%
 This option requires engine-specific PDF primitives that are unavailable.%
 \MessageBreak Disable the option, use another engine, or use the default metadata behavior.%
-}}
+}}{%
+\PackageWarning{pdfprivacy}{Option '#1' is not supported with #2.
+This option requires engine-specific PDF primitives that are unavailable.
+Disable the option, use another engine, or use the default metadata behavior.
+}}}
 \newcommand{\pdfprivacy@warningorstrictfail}[2][]{%
 \ifthenelse{\boolean{pdfprivacy@strict}}{%
 \PackageError{pdfprivacy}{#2}{#1}}{%
@@ -453,7 +459,7 @@ This option requires engine-specific PDF primitives that are unavailable.%
     \pdfprivacy@unsupportedoptionerror{noeditdata}{XeTeX}
   }{}
   \ifthenelse{\boolean{pdfprivacy@noptexdata}}{%
-    \pdfprivacy@unsupportedoptionerror{noptexdata}{XeTeX}
+    \PackageInfo{pdfprivacy}{Option 'noptexdata' is not supported with XeTeX. XeTeX does not seem to emit PTEX meta-data entries in the resulting pdf.}
   }{}
   \ifthenelse{\boolean{pdfprivacy@nopdftrailerid}}{%
     \pdfprivacy@warningorstrictfail[]{No trailerid is not supported for XeTeX. Instead, an all 0 trailerid will be inserted into the pdf.
