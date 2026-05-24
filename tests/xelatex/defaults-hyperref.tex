@@ -1,7 +1,7 @@
-% pdfprivacy-test: build=success package=none
-% pdfprivacy-test: absent=PDF:PTEX_Fullbanner,PDF:PTEX_FileName,PDF:PTEX_PageNumber,PDF:PTEX_InfoDict
+% pdfprivacy-test: build=success package=warning
+% pdfprivacy-test: absent=PDF:Creator,PDF:PTEX_Fullbanner,PDF:PTEX_FileName,PDF:PTEX_PageNumber,PDF:PTEX_InfoDict
 \documentclass{article}
-\usepackage[nodocdata=false,noproducerdata=false,noeditdata=false,noptexdata=true,nopdftrailerid=false]{pdfprivacy}
+\usepackage{pdfprivacy}
 \usepackage[hidelinks]{hyperref}
 
 \hypersetup{
@@ -14,5 +14,5 @@
 }
 
 \begin{document}
-This test validates the noptexdata option.
+This test validates the default package options.
 \end{document}
